@@ -1,0 +1,27 @@
+#title_background{
+  width: 1900px;
+  background-color: #4caf50;
+  height: 180px;
+}
+#title_text{
+  color: #ffffff;
+  font-size: 115px;
+  margin-left: 20px;
+}
+#login_btn_CSS{
+  position:absolute;
+  top:95px;
+  left:1550px;
+}
+#signup_btn_CSS{
+  position:absolute;
+  top:95px;
+  left:1675px;
+}
+#main_list{
+  font-size: 45px;
+  margin-top: 20px;
+}
+.nav{
+  width: 800px;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "salad",
+  "version": "1.0.0",
+  "description": "salad club",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geni429/Club_Salad_Web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geni429/Club_Salad_Web/issues"
+  },
+  "homepage": "https://github.com/geni429/Club_Salad_Web#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-mysql-session": "^1.2.0",
+    "express-session": "^1.14.1",
+    "jquery": "^3.1.1",
+    "mysql": "^2.11.1",
+    "nodemailer": "^2.6.4",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "pbkdf2-password": "^1.2.1"
+  }
+}
