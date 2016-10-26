@@ -46,7 +46,7 @@ app.get('/test2', function(req, res){
 });
 
 app.get('/', function(req, res){
-  res.render('board1');
+  res.render('main_pg_1');
 });
 
 

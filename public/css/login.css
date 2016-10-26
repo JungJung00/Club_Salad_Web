@@ -5,12 +5,12 @@
   font-size:28px !important;
 }
 #login{
-  position : absolute; top:380px; left : 350px;
-  width : 2000px;
+  /*position : absolute; top:380px; left : 350px;*/
+  /* width : 2000px; */
 }
 .button {
   position : absolute;
-  top:50px; left : 1170px;
+  /*top:50px; left : 1170px;*/
   background-color: #4CAF50;
   border: none;
   color: white;
