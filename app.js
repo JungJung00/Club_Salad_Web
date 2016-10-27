@@ -10,7 +10,7 @@ var dbOption = {
   user: 'root',
   port: 3306,
   password: 'ehehgks!!123',
-  database: 'whitespace',
+  database: 'salad',
   connectionLimit: 10
 }
 var pool = mysql.createPool(dbOption);
@@ -36,20 +36,131 @@ app.engine('handlebars', handlebars.engine)
    .set('view engine', 'handlebars')
    .set('port', process.env.PORT || 4002);
 
+
+
 /***************라우팅*******************/
 
-app.get('/test1', function(req, res){
-  res.render('login');
+passport.use(new LocalStrategy(
+  function(username, password, done){
+    pool.getConnection(function(err, connection){
+        if(err) throw err;
+        else{
+          // TODO 입력 틀렸을 경우 페이지 만들기
+          // 로그인 처리
+          connection.query('SELECT mbr_Id, mbr_Pwd, mbr_Email, mbr_Name FROM member WHERE mbr_Id = ?', username, function(err, rows){
+            if(err){
+              console.log('Query Error: ' + err);
+              return done(null, false);
+            }
+            else{
+              // 아이디 불일치
+              if(!rows.length){
+                console.log('\n\nThere is no ID that you typed');
+                return done(null, false);
+              }
+              else{
+                  // 아이디, 비밀번호 일치
+                  if(password == rows[0].mbr_Pwd){
+                    // 회원 정보를 serializeUser(callback)에 보낸다.
+                    console.log(rows[0]);
+                    done(null, rows[0]);
+                  }
+                  // 비밀번호 불일치
+                  else{
+                    console.log('\n\nWrong password');
+                    done(null, false);
+                  }
+              }
+            }
+          });
+        }
+        connection.release();
+      });
+  }
+));
+// done이 false가 아닐 경우 실행
+// 사용자의 세션(닉네임)을 저장한다.
+passport.serializeUser(function(user, done){
+  console.log('serial user : ' + user.mbr_Name);
+  done(null, user);
 });
-app.get('/test2', function(req, res){
-  res.render('main_pg_1');
-});
+// 세션이 이미 저장되어 있을 경우 req에 user 객체를 추가한다.
+passport.deserializeUser(function(user, done){
+  // req의 객체 user에 저장. user객체는 passport가 새로 추가하는 객체.
+  done(null, user);
+})
 
 app.get('/', function(req, res){
-  res.render('main_pg_1');
+  if(req.user){
+    res.render('main_pg_2', {user: req.user.mbr_Name});
+  }
+  else{
+    res.render('main_pg_1');
+  }
 });
 
 
+// app.post('/signin', function(req, res){
+//   pool.getConnection(function(err, connection){
+//     if (err) throw err;
+//     connection.query('SELECT mbr_Id, mbr_Pwd FROM member WHERE mbr_Id = ?', req.body.id, function(err, rows){
+//       if (err) throw err;
+//       if(!rows){
+//           res.redirect('/');
+//       }
+//       else if(rows[0].mbr_Pwd != req.body.pwd){
+//         res.redirect('/');
+//       }
+//       else{
+//         // passport login 처리
+//       }
+//     });
+//     connection.release();
+//   });
+// });
+app.post('/signin', passport.authenticate('local', {successRedirect: '/',
+                                                               failureRedirect: '/',
+                                                               failureFlash: false})
+);
+
+app.post('/filter/id', function(req, res){
+  pool.getConnection(function(err, connection){
+    if (err) throw err;
+    else{
+      connection.query('SELECT mbr_Id FROM member WHERE mbr_Id = ?', req.body.input_Id, function(err, rows){
+        if (err) throw err;
+        else{
+          res.json({isThere: rows.length});
+        }
+        connection.release();
+      });
+    }
+  });
+});
+app.post('/filter/email', function(req, res){
+  pool.getConnection(function(err, connection){
+    if(err) throw err;
+    else{
+      connection.query('SELECT mbr_Email FROM member WHERE mbr_Email = ?', req.body.input_Email, function(err, rows){
+        if(err) throw err;
+        else{
+          res.json({isThere: rows.length});
+        }
+        connection.release();
+      });
+    }
+  });
+});
+app.post('/signup', function(req, res){
+  pool.getConnection(function(err, connection){
+    if (err) throw err;
+    connection.query('INSERT INTO member VALUES (?, ?, ?, ?)', [req.body.id, req.body.pwd, req.body.name, req.body.email], function(err, rows){
+      if (err) throw err;
+      res.redirect('/');
+    });
+    connection.release();
+  });
+});
 /***************핸들링*******************/
 
 // app.use = 미들웨어 추가 메서드, 라우트와 일치하지 않는 모든 것을 처리

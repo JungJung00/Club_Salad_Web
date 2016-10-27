@@ -1,0 +1,101 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="container">
+    <!--상단 영역-->
+    <div class="row">
+        <div class="col-md-1"><img id="logo_img" src="img/수박.jpg" /></div>
+        <div class="col-md-2 col-md-offset-1" id="logo">Salad</div>
+        <div class="col-md-6">
+            <ul class="nav nav-pills">
+                <li role="presentation"><a href="#">자유게시판</a></li>
+                <li role="presentation"><a href="#">활동일지</a></li>
+                <li role="presentation"><a href="#">공지사항</a></li>
+            </ul>
+        </div>
+        <div class="col-md-1">
+          <ul>
+            <li style="list-style="none"" role="presentation"><h3 id="user">{{user}}</h3></li>
+          </ul>
+        </div>
+    </div>
+    <!--상단 영역 종료-->
+
+    <!--중간 영역 시작-->
+    <div class="row">
+        <div id="text_1" class="col-md-1">
+            <p><strong>F<br />L<br />Y<br /></strong></p>
+        </div>
+        <div id="text_2" class="col-md-3">
+            <p>
+                <br />resh mind.
+                <br />
+                <br />earn each other.
+                <br />
+                <br />ummy result.!
+                <br />
+                <br />
+            </p>
+        </div>
+        <div id="img" class="col-md-8">
+            <img src="img/메인사진_4.png" />
+        </div>
+    </div>
+</div>
+<div id="footer"><img id="dsm_logo" src="img/1logo.png" /></div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var checkId, checkPwd, checkPwdck, checkEmail;
+    $('#input-name').focus();
+    $('#input-name').on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-id').focus();
+        break;
+      }
+    });
+    $('#input-id').on('textchange', function(){
+      checkId = idFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-pwd').focus();
+        break;
+      }
+    });
+    $('#input-pwd').on('textchange', function(){
+      checkPwd = pwdFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-pwdck').focus();
+        break;
+      }
+    });
+    $('#input-pwdck').on('textchange', function(){
+      checkPwdck = pwdckFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-email').focus();
+        break;
+      }
+    });
+    $('#input-email').on('textchange', function(){
+      checkEmail = emailFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+          if(checkId && checkPwd && checkPwdck && checkEmail) document.usubmitter.submit();;
+          break;
+      }
+    });
+    $('#signup-complete').on('click', function(){
+      document.usubmitter.submit();
+    });
+    $('#signin-complete').on('click', function(){
+      document.isubmitter.submit();
+    });
+  });
+</script>
+<script src="js/datafilter.js"></script>
+<script src="js/jquery.splendid.textchange.js"></script>
