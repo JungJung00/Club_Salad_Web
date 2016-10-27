@@ -1,0 +1,157 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="container">
+    <!--상단 영역-->
+    <div class="row">
+        <div class="col-md-1"><img id="logo_img" src="img/수박.jpg" /></div>
+        <div class="col-md-3 col-md-offset-1" id="logo">Salad</div>
+        <div class="col-md-6">
+            <ul class="nav nav-pills">
+                <li role="presentation"><a href="#">자유게시판</a></li>
+                <li role="presentation"><a href="#">활동일지</a></li>
+                <li role="presentation"><a href="#">공지사항</a></li>
+            </ul>
+        </div>
+        <div class="col-md-1" id="login">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#login_btn">로그인</button>
+            <div id="login_btn" class="modal fade" role="dialog">
+                <div class="modal-dialog" id="login_modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><strong>로그인</strong></h4>
+                        </div>
+                        <form name="isubmitter" action="/signin" method="post">
+                          <div class="modal-body">
+                            아이디 입력 :
+                            <input type="text" name="username" placeholder="&nbsp;ID">
+                            <br />
+                            <br /> 패스워드 입력 :
+                            <input type="password" name="password" placeholder="&nbsp;PASSWORD">
+                          </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                            <button id="signin-complete" type="button" class="btn btn-default" data-dismiss="modal">로그인</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1" id="signup">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signup_btn">회원가입</button>
+            <div id="signup_btn" class="modal fade" role="dialog">
+                <div class="modal-dialog" id="signup_modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><strong>회원가입</strong></h4>
+                        </div>
+                        <form name="usubmitter" action="/signup" method="post">
+                          <div class="modal-body">
+                            이름 :
+                            <input id="input-name" type="text" name="name" placeholder="&nbsp;Name">
+                            <br />
+                            <br /> 아이디 :
+                            <input id="input-id" type="text" name="id" placeholder="&nbsp;ID">
+                            <br />
+                            <br /> 비밀번호 :
+                            <input id="input-pwd" type="password" name="pwd" placeholder="&nbsp;Password">
+                            <br />
+                            <br /> 비밀번호 재확인 :
+                            <input id="input-pwdck" type="password" name="pwdck" placeholder="&nbsp;Reconfirm">
+                            <br />
+                            <br /> 이메일 입력 :
+                            <input id="input-email" type="email" name="email" placeholder="&nbsp;E-mail">
+                          </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                            <button id="signup_complete" type="button" class="btn btn-default" data-dismiss="modal">완료</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--상단 영역 종료-->
+
+    <!--중간 영역 시작-->
+    <div class="row">
+        <div id="text_1" class="col-md-1">
+            <p><strong>F<br />L<br />Y<br /></strong></p>
+        </div>
+        <div id="text_2" class="col-md-3">
+            <p>
+                <br />resh mind.
+                <br />
+                <br />earn each other.
+                <br />
+                <br />ummy result.!
+                <br />
+                <br />
+            </p>
+        </div>
+        <div id="img" class="col-md-8">
+            <img src="img/메인사진_4.png" />
+        </div>
+    </div>
+</div>
+<div id="footer"><img id="dsm_logo" src="img/1logo.png" /></div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var checkId, checkPwd, checkPwdck, checkEmail;
+    $('#input-name').focus();
+    $('#input-name').on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-id').focus();
+        break;
+      }
+    });
+    $('#input-id').on('textchange', function(){
+      checkId = idFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-pwd').focus();
+        break;
+      }
+    });
+    $('#input-pwd').on('textchange', function(){
+      checkPwd = pwdFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-pwdck').focus();
+        break;
+      }
+    });
+    $('#input-pwdck').on('textchange', function(){
+      checkPwdck = pwdckFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+        $('#input-email').focus();
+        break;
+      }
+    });
+    $('#input-email').on('textchange', function(){
+      checkEmail = emailFilter();
+    }).on('keydown', function(event){
+      switch(event.keyCode){
+        case 13:
+          if(checkId && checkPwd && checkPwdck && checkEmail) document.usubmitter.submit();;
+          break;
+      }
+    });
+    $('#signup-complete').on('click', function(){
+      document.usubmitter.submit();
+    });
+    $('#signin-complete').on('click', function(){
+      document.isubmitter.submit();
+    })
+  });
+</script>
+<script src="js/datafilter.js"></script>
+<script src="js/jquery.splendid.textchange.js"></script>
