@@ -99,30 +99,6 @@ app.get('/', function(req, res){
   }
 });
 
-
-// app.post('/signin', function(req, res){
-//   pool.getConnection(function(err, connection){
-//     if (err) throw err;
-//     connection.query('SELECT mbr_Id, mbr_Pwd FROM member WHERE mbr_Id = ?', req.body.id, function(err, rows){
-//       if (err) throw err;
-//       if(!rows){
-//           res.redirect('/');
-//       }
-//       else if(rows[0].mbr_Pwd != req.body.pwd){
-//         res.redirect('/');
-//       }
-//       else{
-//         // passport login 처리
-//       }
-//     });
-//     connection.release();
-//   });
-// });
-app.post('/signin', passport.authenticate('local', {successRedirect: '/',
-                                                               failureRedirect: '/',
-                                                               failureFlash: false})
-);
-
 app.post('/filter/id', function(req, res){
   pool.getConnection(function(err, connection){
     if (err) throw err;
@@ -150,6 +126,14 @@ app.post('/filter/email', function(req, res){
       });
     }
   });
+});
+app.post('/signin', passport.authenticate('local', {successRedirect: '/',
+                                                               failureRedirect: '/',
+                                                               failureFlash: false})
+);
+app.get('/signout', function(req, res){
+  req.logout();
+  res.render('main_pg_1');
 });
 app.post('/signup', function(req, res){
   pool.getConnection(function(err, connection){
